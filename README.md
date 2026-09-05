@@ -149,12 +149,6 @@ Sample research papers for testing can be downloaded from [arXiv](https://arxiv.
 
 ---
 
-## 📄 License
-
-This project is available for educational and demonstration purposes. Add a license of your choice (e.g., MIT) if you plan to open-source it.
-
----
-
 ## 🙋 Author
 
 **Abhishek Kumar**
