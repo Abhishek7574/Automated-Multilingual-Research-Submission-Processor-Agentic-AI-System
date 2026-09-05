@@ -1,0 +1,64 @@
+<div class="login-page">
+
+  <div class="back-nav">
+    <a routerLink="/">← Back to Home</a>
+  </div>
+
+  <div class="login-card">
+
+    <!-- Role Toggle -->
+    <div class="role-toggle">
+
+      <button type="button"
+              class="role-pill"
+              [class.active]="selectedRole === 'user'"
+              (click)="onRoleChange('user')">
+        👤 User
+      </button>
+
+      <button type="button"
+              class="role-pill"
+              [class.active]="selectedRole === 'admin'"
+              (click)="onRoleChange('admin')">
+        🛡 Admin
+      </button>
+
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+
+      <div class="field">
+        <label>Username</label>
+        <input type="text"
+               name="username"
+               [(ngModel)]="username"
+               required
+               placeholder="Enter username">
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password"
+               name="password"
+               [(ngModel)]="password"
+               required
+               placeholder="Enter password">
+      </div>
+
+      <p class="error-msg" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </p>
+
+      <button type="submit"
+              class="login-btn"
+              [class.admin]="selectedRole === 'admin'">
+
+        {{ selectedRole === 'admin' ? 'Admin Login' : 'User Login' }}
+
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

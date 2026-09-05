@@ -1,0 +1,36 @@
+
+<div class="qna-container">
+
+  <div class="chat-window">
+
+    <div *ngFor="let msg of messages"
+         [ngClass]="msg.role"
+         class="chat-message">
+
+      {{ msg.text }}
+
+    </div>
+
+    <div *ngIf="loading" class="assistant chat-message">
+      Thinking...
+    </div>
+
+  </div>
+
+  <div class="input-area">
+
+    <input type="text"
+           [(ngModel)]="question"
+           placeholder="Ask something about this paper..."
+           (keyup.enter)="ask()" />
+
+    <button (click)="ask()">Ask</button>
+
+  </div>
+
+</div>
+
+
+
+
+

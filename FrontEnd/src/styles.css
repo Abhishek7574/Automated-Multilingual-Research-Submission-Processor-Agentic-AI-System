@@ -1,0 +1,23 @@
+/* Tailwind base imports (Angular 15 compatible) */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
+}

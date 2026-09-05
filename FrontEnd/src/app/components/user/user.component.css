@@ -1,0 +1,671 @@
+:host {
+  display: block;
+  height: 100vh;
+  font-family: "Segoe UI", Arial;
+}
+
+/* DASHBOARD */
+
+.dashboard {
+  display: flex;
+  height: 100vh;
+  background: #020617;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+  width: 240px;
+  background: #020617;
+  color: white;
+  padding: 30px 18px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #1e293b;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 35px;
+}
+
+.sidebar-logo {
+  font-size: 1.4rem;
+}
+
+.sidebar-title {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* NAV */
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-item {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  padding: 12px 14px;
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: .2s;
+}
+
+  .nav-item:hover {
+    background: #0f172a;
+    color: #e2e8f0;
+  }
+
+  .nav-item.active {
+    background: linear-gradient(45deg,#2563eb,#3b82f6);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 0 10px rgba(59,130,246,0.6);
+  }
+
+.nav-count {
+  margin-left: 8px;
+  background: #2563eb;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: .7rem;
+}
+
+/* MAIN AREA */
+
+.main-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* TOPBAR */
+
+.topbar {
+  height: 60px;
+  background: #020617;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #1e293b;
+}
+
+.welcome-text {
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+/* LOGOUT BUTTON */
+
+.btn-logout {
+  background: linear-gradient(45deg,#2563eb,#3b82f6);
+  border: none;
+  padding: 8px 18px;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+}
+
+  .btn-logout:hover {
+    box-shadow: 0 0 10px rgba(59,130,246,0.7);
+  }
+
+/* CONTENT */
+
+.content {
+  padding: 30px;
+  overflow: auto;
+}
+
+/* LAYOUT */
+
+.upload-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 28px;
+}
+
+/* CARDS */
+
+.upload-card,
+.pipeline-card,
+.submissions-card,
+.qna-card {
+  background: rgba(15,23,42,0.8);
+  border-radius: 14px;
+  padding: 25px;
+  border: 1px solid #1e293b;
+  box-shadow: 0 10px 25px rgba(0,0,0,.8), 0 0 10px rgba(59,130,246,.1);
+}
+
+/* DROP ZONE */
+
+.drop-zone {
+  border: 2px dashed #3b82f6;
+  padding: 45px;
+  text-align: center;
+  border-radius: 12px;
+  background: #020617;
+  cursor: pointer;
+  color: #cbd5f5;
+}
+
+.drop-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+/* BUTTON */
+
+.btn-upload {
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px;
+  background: linear-gradient(45deg,#2563eb,#3b82f6);
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  color: white;
+}
+
+  .btn-upload:hover {
+    box-shadow: 0 0 12px rgba(59,130,246,.6);
+  }
+
+/* PROGRESS */
+
+.progress-bar {
+  height: 8px;
+  background: #1e293b;
+  border-radius: 6px;
+  margin-top: 14px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #3b82f6;
+}
+
+/* PIPELINE */
+
+.pipeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+  .pipeline li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #020617;
+  }
+
+    .pipeline li.active {
+      background: #0f172a;
+    }
+
+    .pipeline li.done {
+      background: #022c22;
+    }
+
+    .pipeline li.error {
+      background: #450a0a;
+    }
+
+/* TABLE */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #020617;
+  padding: 12px;
+  text-align: left;
+  color: #e2e8f0;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #1e293b;
+  color: #cbd5f5;
+}
+
+tr:hover {
+  background: #0f172a;
+}
+
+/* BADGES */
+
+.badge {
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: .75rem;
+}
+
+  .badge.success {
+    background: #022c22;
+    color: #34d399;
+  }
+
+  .badge.error {
+    background: #450a0a;
+    color: #f87171;
+  }
+
+/* QNA CHAT */
+
+.qna-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.user-msg {
+  align-self: flex-end;
+  background: linear-gradient(45deg,#2563eb,#3b82f6);
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 60%;
+  color: white;
+}
+
+.bot-msg {
+  align-self: flex-start;
+  background: #020617;
+  border: 1px solid #1e293b;
+  padding: 10px 14px;
+  border-radius: 10px;
+  max-width: 60%;
+  color: #e2e8f0;
+}
+
+.qna-empty {
+  text-align: center;
+  color: #64748b;
+}
+
+/* MOBILE */
+
+@media(max-width:900px) {
+
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .upload-layout {
+    grid-template-columns: 1fr;
+  }
+}
+/* GLOBAL TEXT FIX */
+
+body,
+.dashboard,
+.content,
+.card,
+.upload-card,
+.pipeline-card,
+.submissions-card,
+.qna-card {
+  color: #e2e8f0;
+}
+
+/* HEADINGS */
+
+h1, h2, h3, h4 {
+  color: #f8fafc;
+}
+
+/* SMALL TEXT */
+
+small {
+  color: #94a3b8;
+}
+
+/* PIPELINE TEXT */
+
+.pipeline li {
+  color: #e2e8f0;
+}
+
+/* STEP DESCRIPTION */
+
+.step-text small {
+  color: #94a3b8;
+}
+
+/* TABLE */
+
+th {
+  color: #e2e8f0;
+}
+
+td {
+  color: #cbd5f5;
+}
+
+/* DROPZONE TEXT */
+
+.drop-zone {
+  color: #e2e8f0;
+}
+
+/* QNA TEXT */
+
+.bot-msg {
+  color: #e2e8f0;
+}
+
+.user-msg {
+  color: white;
+}
+
+/* INPUT TEXT */
+
+input {
+  color: black;
+}
+
+  /* PLACEHOLDER */
+
+  input::placeholder {
+    color: #64748b;
+  }
+
+
+/* ============================= */
+/* PROCESSING RESULTS SECTION   */
+/* ============================= */
+
+.results-container {
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  background: #020617;
+}
+
+/* HEADER BANNER */
+
+.results-header-banner {
+  background: linear-gradient(45deg,#2563eb,#3b82f6);
+  padding: 12px 16px;
+  font-weight: 700;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+}
+
+.check-icon {
+  font-size: 1rem;
+}
+
+/* BODY */
+
+.results-body {
+  padding: 18px;
+}
+
+/* GRID */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* ROW */
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #020617;
+  border: 1px solid #1e293b;
+}
+
+/* LABEL */
+
+.label {
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* VALUE */
+
+.value {
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+/* ALERT */
+
+.alert-box {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #92400e;
+  background: #451a03;
+}
+
+.alert-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #fbbf24;
+}
+
+.alert-icon {
+  font-size: 1rem;
+}
+/* INPUT AREA */
+
+.input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+}
+
+/* INPUT FIELD */
+
+.input-area input {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #1e293b;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input-area input::placeholder {
+  color: #64748b;
+}
+
+/* FOCUS EFFECT */
+
+.input-area input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 6px rgba(59,130,246,0.4);
+}
+
+/* ASK BUTTON */
+
+.input-area button {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  background: linear-gradient(45deg,#2563eb,#3b82f6);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.input-area button:hover {
+  box-shadow: 0 0 10px rgba(59,130,246,0.6);
+}
+/* ============================= */
+/* QNA INPUT AREA                */
+/* ============================= */
+
+.qna-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* QUESTION INPUT */
+
+.qna-inpu {
+  flex: 1;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid #1e293b;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-size: 0.9rem;
+  outline: none;
+  transition: 0.2s;
+}
+
+  .qna-inpu::placeholder {
+    color: #64748b;
+  }
+
+  .qna-inpu:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 6px rgba(59,130,246,0.4);
+  }
+
+/* ============================= */
+/* QNA DOCUMENT SELECT           */
+/* ============================= */
+
+.qna-select {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+  .qna-select label {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+
+  /* DROPDOWN */
+
+  .qna-select select {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #1e293b;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    outline: none;
+    transition: 0.2s;
+  }
+
+    /* DROPDOWN FOCUS */
+
+    .qna-select select:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 6px rgba(59,130,246,0.4);
+    }
+
+/* ============================= */
+/* QNA INPUT AREA                */
+/* ============================= */
+
+.qna-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+  /* QUESTION INPUT */
+
+  .qna-input input {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #1e293b;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    outline: none;
+    transition: 0.2s;
+  }
+
+    .qna-input input::placeholder {
+      color: #64748b;
+    }
+
+    .qna-input input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 6px rgba(59,130,246,0.4);
+    }
+
+  /* ASK BUTTON */
+
+  .qna-input button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    background: linear-gradient(45deg,#2563eb,#3b82f6);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+    .qna-input button:hover {
+      box-shadow: 0 0 10px rgba(59,130,246,0.6);
+    }
+
+    .qna-input button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }

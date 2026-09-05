@@ -1,0 +1,261 @@
+
+<div class="admin-container">
+
+  <h2>Admin Review Dashboard</h2>
+
+  <div class="top-bar">
+
+
+
+    <div class="top-buttons">
+
+      <button class="qa-btn" (click)="openQA()">
+        Q&A Agent
+      </button>
+
+      <button class="logout-btn" (click)="logout()">
+        Logout
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+
+</div>
+<!-- ============================= -->
+<!-- Q&A MODAL -->
+<!-- ============================= -->
+
+<div *ngIf="showQA" class="qa-overlay">
+
+  <div class="qa-modal">
+
+    <!-- HEADER -->
+    <div class="qa-header">
+      <h3>🤖 Document Q&A</h3>
+      <button class="close-btn" (click)="closeQA()">✕</button>
+    </div>
+
+    <!-- DOCUMENT SELECT -->
+    <div class="qa-select">
+      <label>Select Document</label>
+
+      <select [(ngModel)]="selectedDocumentId">
+        <option [ngValue]="null">Choose document</option>
+
+        <option *ngFor="let doc of documents"
+                [value]="doc.documentId">
+          {{ doc.fileName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- CHAT AREA -->
+    <div class="qa-chat">
+
+      <div *ngIf="chatHistory.length === 0" class="empty-chat">
+        Ask a question to start the conversation.
+      </div>
+
+      <div *ngFor="let msg of chatHistory">
+
+        <!-- USER -->
+        <div class="chat-row user">
+          <div class="bubble user-bubble">
+            {{ msg.question }}
+          </div>
+        </div>
+
+        <!-- AI -->
+        <div class="chat-row ai">
+          <div class="bubble ai-bubble">
+            {{ msg.answer }}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- INPUT -->
+    <div class="qa-input">
+
+      <input type="text"
+             placeholder="Ask something about the document..."
+             [(ngModel)]="question"
+             (keyup.enter)="askQuestion()" />
+
+      <button (click)="askQuestion()"
+              [disabled]="!question || !selectedDocumentId || asking">
+
+        {{ asking ? '...' : 'Ask' }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Action Message -->
+<div *ngIf="actionMessage"
+     class="alert"
+     [ngClass]="{
+         'alert-success': actionMessage.type === 'success',
+         'alert-error': actionMessage.type === 'error'
+       }">
+  {{ actionMessage.text }}
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="loading">
+  Loading documents...
+</div>
+
+<!-- ===================== -->
+<!-- Awaiting Review -->
+<!-- ===================== -->
+
+<div *ngIf="!loading && awaitingReview.length > 0">
+
+  <h3>Documents Awaiting Review</h3>
+
+  <div class="card" *ngFor="let doc of awaitingReview">
+
+    <!-- Updated Header -->
+    <div class="card-header">
+
+      <div class="file-info">
+        <span class="file-icon">📄</span>
+        <strong>{{ doc.fileName }}</strong>
+      </div>
+
+      <span class="date">
+        {{ doc.processedAt | date:'medium' }}
+      </span>
+
+    </div>
+
+    <!-- Pending Badge -->
+    <div class="status-badge pending">
+      Awaiting Review
+    </div>
+
+    <!-- Flagged Items -->
+    <div *ngIf="doc.flaggedItems && doc.flaggedItems.length > 0"
+         class="flagged-section">
+
+      <h4>Flagged Issues</h4>
+
+      <div class="flag-item" *ngFor="let item of doc.flaggedItems">
+        <p><strong>Field:</strong> {{ item.field }}</p>
+        <p><strong>Result:</strong> {{ item.agentResult }}</p>
+        <p><strong>Confidence:</strong> {{ item.confidence }}%</p>
+      </div>
+
+    </div>
+
+    <!-- Rejection Textarea -->
+    <div class="reject-box">
+      <textarea placeholder="Enter rejection reason (required for reject)"
+                [ngModel]="rejectionReasons[doc.documentId]"
+                (ngModelChange)="setRejectionReason(doc.documentId, $event)">
+        </textarea>
+    </div>
+
+    <!-- Buttons -->
+    <div class="actions">
+
+      <button (click)="approve(doc)"
+              [disabled]="isProcessing(doc.documentId)">
+        Approve
+      </button>
+
+      <button class="reject-btn"
+              (click)="reject(doc)"
+              [disabled]="isProcessing(doc.documentId)">
+        Reject
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- No Pending -->
+<div *ngIf="!loading && awaitingReview.length === 0"
+     class="empty">
+  No documents pending review.
+</div>
+
+<!-- ===================== -->
+<!-- Processed Documents -->
+<!-- ===================== -->
+
+<div *ngIf="!loading && processed.length > 0">
+
+  <h3>Processed Documents</h3>
+
+  <div class="card processed-card"
+       *ngFor="let doc of processed">
+
+    <!-- Updated Header -->
+    <div class="card-header">
+
+      <div class="file-info">
+        <span class="file-icon">📄</span>
+        <strong>{{ doc.fileName }}</strong>
+      </div>
+
+      <span class="date">
+        {{ doc.processedAt | date:'medium' }}
+      </span>
+
+    </div>
+
+    <div class="review-result">
+
+      <p>
+        <strong>Status:</strong>
+
+
+        <span [ngClass]="{
+          'approved': !doc.requiresReview || doc.reviewDecision?.approved,
+          'rejected': doc.requiresReview && doc.reviewDecision && !doc.reviewDecision.approved
+        }">
+
+          {{ !doc.requiresReview?'Auto Approved': doc.reviewDecision?.approved ? 'Approved' : 'Rejected' }}
+        </span>
+
+
+      </p>
+
+      <p>
+        <strong>Rejection Reason:</strong>
+        {{ doc.reviewDecision?.rejectionReason || '–' }}
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+

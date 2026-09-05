@@ -1,0 +1,89 @@
+
+
+.qna-container {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background: #fafafa;
+}
+
+.chat-window {
+  height: 280px;
+  overflow-y: auto;
+  border: 1px solid #eee;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: white;
+}
+
+.chat-message {
+  padding: 8px 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+  max-width: 75%;
+}
+
+.user {
+  background: #d1ecf1;
+  margin-left: auto;
+  text-align: right;
+}
+
+.assistant {
+  background: #f1f1f1;
+  margin-right: auto;
+}
+
+/* INPUT AREA */
+
+.input-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+}
+
+  /* INPUT FIELD */
+
+  .input-area input {
+    flex: 1;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #1e293b;
+    background: #0f172a;
+    color: #e2e8f0;
+    font-size: 0.9rem;
+    outline: none;
+    transition: 0.2s;
+  }
+
+    .input-area input::placeholder {
+      color: #64748b;
+    }
+
+    /* FOCUS EFFECT */
+
+    .input-area input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 6px rgba(59,130,246,0.4);
+    }
+
+  /* ASK BUTTON */
+
+  .input-area button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    background: linear-gradient(45deg,#2563eb,#3b82f6);
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+    .input-area button:hover {
+      box-shadow: 0 0 10px rgba(59,130,246,0.6);
+    }

@@ -1,0 +1,156 @@
+<div class="dashboard">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logo">📝</div>
+      <div class="sidebar-title">User Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item" [class.active]="activeTab === 'upload'" (click)="switchTab('upload')">📄 Upload</button>
+      <button class="nav-item" [class.active]="activeTab === 'submissions'" (click)="switchTab('submissions')">
+        📋 Submissions
+        <span *ngIf="mySubmissions.length > 0" class="nav-count">{{ mySubmissions.length }}</span>
+      </button>
+      <button class="nav-item" [class.active]="activeTab === 'qna'" (click)="switchTab('qna')">💬 Q&A</button>
+    </nav>
+  </aside>
+
+  <div class="main-area">
+    <header class="topbar">
+      <div class="topbar-left"><app-health-status></app-health-status></div>
+      <div class="topbar-right">
+        <span class="welcome-text">👋 {{ currentUsername }}</span>
+        <button class="btn-logout" (click)="auth.logout()">Logout</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div *ngIf="activeTab === 'upload'" class="upload-layout">
+        <section class="upload-card">
+          <h3>Upload Document</h3>
+
+          <div class="drop-zone" [class.drag-over]="isDragOver" (dragover)="onDragOver($event)" (dragleave)="onDragLeave()" (drop)="onDrop($event)" (click)="fileInput.click()">
+            <input #fileInput type="file" accept=".pdf,.doc,.docx" hidden (change)="onFileSelected($event)" />
+            <div *ngIf="!selectedFile" class="drop-placeholder">
+              <div class="drop-icon">⬆</div>
+              <p>Drag your file here</p>
+              <small>or click to browse</small>
+            </div>
+            <div *ngIf="selectedFile" class="file-info">
+              <span>{{ selectedFile.name }}</span>
+              <span>{{ formatFileSize(selectedFile.size) }}</span>
+              <button (click)="$event.stopPropagation(); reset()">✕</button>
+            </div>
+          </div>
+
+          <button class="btn-upload" [disabled]="!selectedFile || uploadStatus === 'processing'" (click)="uploadStatus === 'done' || uploadStatus === 'error' ? reset() : startProcessing()">
+            <span *ngIf="uploadStatus === 'idle'">Upload & Process</span>
+            <span *ngIf="uploadStatus === 'processing'">Processing...</span>
+            <span *ngIf="uploadStatus === 'done'">Upload Another</span>
+            <span *ngIf="uploadStatus === 'error'">Try Again</span>
+          </button>
+
+          <div *ngIf="uploadStatus === 'processing' || uploadStatus === 'done'" class="progress-bar">
+            <div class="progress-fill" [style.width.%]="progressPercent"></div>
+          </div>
+
+          <div *ngIf="uploadStatus === 'done' && lastResult" class="results-container">
+            <div class="results-header-banner">
+              <span class="check-icon">✓</span>
+              Processing Results
+            </div>
+
+            <div class="results-body">
+              <h4>Document Information</h4>
+              <div class="info-grid">
+                <div class="info-row">
+                  <span class="label">Title:</span>
+                  <span class="value">{{ extractedMeta?.title || lastResult.fileName }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Authors:</span>
+                  <span class="value">{{ extractedMeta?.authors || 'Unknown' }}</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Page Count:</span>
+                  <span class="value">{{ extractedMeta?.pageCount || 'N/A' }} pages</span>
+                </div>
+                <div class="info-row">
+                  <span class="label">Language:</span>
+                  <span class="value">{{ extractedMeta?.language || 'en' }}</span>
+                </div>
+              </div>
+
+              <div class="alert-box warning">
+                <div class="alert-title">
+                  <span class="alert-icon">⚠️</span>
+                  Validation Issues - Pending Admin Review
+                </div>
+                <p>This document has validation issues and has been submitted for admin review. You will be notified once it's approved.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="pipeline-card">
+          <h3>Processing Pipeline</h3>
+          <ul class="pipeline">
+            <li *ngFor="let step of steps" [ngClass]="step.state">
+              <div class="step-icon">{{ step.icon }}</div>
+              <div class="step-text">
+                <strong>{{ step.title }}</strong>
+                <small>{{ step.description }}</small>
+              </div>
+              <div class="step-status">
+                <span *ngIf="step.state === 'done'">✓</span>
+                <span *ngIf="step.state === 'active'">Running</span>
+                <span *ngIf="step.state === 'error'">Failed</span>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <section *ngIf="activeTab === 'submissions'" class="submissions-card">
+        <div class="submissions-header">
+          <h3>My Submissions</h3>
+          <button (click)="loadMySubmissions()" [disabled]="submissionsLoading">Refresh</button>
+        </div>
+        <table *ngIf="mySubmissions.length > 0">
+          <thead>
+            <tr><th>File</th><th>Date</th><th>Status</th><th>Review</th><th>Note</th></tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doc of mySubmissions">
+              <td>{{ doc.fileName }}</td>
+              <td>{{ doc.processedAt | date:'mediumDate' }}</td>
+              <!--<td><span [class]="doc.overallSuccess ? 'badge success' : 'badge error'">{{ doc.overallSuccess ? 'OK' : 'Errors' }}</span></td>-->
+              <td>{{ reviewStatusLabel(doc) }}</td>
+              <td>{{ doc.reviewDecision?.rejectionReason || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section *ngIf="activeTab === 'qna'" class="qna-card">
+        <h3>Ask Questions About Your Document</h3>
+        <div class="qna-select">
+          <label>Select Document</label>
+          <select [(ngModel)]="selectedDocumentId">
+            <option [ngValue]="null">Choose document</option>
+            <option *ngFor="let doc of mySubmissions" [value]="doc.documentId">{{ doc.fileName }}</option>
+          </select>
+        </div>
+        <div class="qna-input">
+          <input type="text" placeholder="Ask something about the document..." [(ngModel)]="question" (keyup.enter)="askQuestion()" />
+          <button (click)="askQuestion()" [disabled]="!question || !selectedDocumentId || asking">{{ asking ? 'Asking...' : 'Ask' }}</button>
+        </div>
+        <div class="qna-chat">
+          <div *ngFor="let msg of chatHistory" class="chat-block">
+            <div class="user-msg">{{ msg.question }}</div>
+            <div class="bot-msg">{{ msg.answer }}</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
