@@ -3,3 +3,25 @@
 ################################################################################
 
 /.vs
+
+# Build output and dependencies
+[Bb]in/
+[Oo]bj/
+node_modules/
+dist/
+coverage/
+
+# Editor and operating-system files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.DS_Store
+Thumbs.db
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+**/appsettings.Development.local.json
+**/secrets.json
