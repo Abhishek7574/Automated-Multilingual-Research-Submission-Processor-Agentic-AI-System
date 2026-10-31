@@ -1,23 +1,17 @@
 # Automated Multilingual Research Submission Processor
 
-An agentic AI application for processing multilingual research submissions. The system combines an Angular interface, an ASP.NET Core API, Azure AI services, and specialised processing agents for document ingestion, extraction, validation, retrieval, and reviewer-facing workflows.
-
-## Problem statement
-
-Research submissions can arrive as PDF, Word, and scanned documents in different languages. Reviewing them manually for required sections, extracted metadata, language handling, and policy concerns is time-consuming and inconsistent.
+An agentic AI application for processing multilingual research submissions. It combines an Angular interface, an ASP.NET Core API, Azure AI services, and specialised document-processing agents.
 
 ## Key capabilities
 
-- Document ingestion and preprocessing, including OCR support for scanned content.
+- Ingestion and preprocessing of research documents, including OCR support.
 - Language analysis and translation workflows.
-- Structured metadata extraction for research documents.
-- Validation, content-safety, plagiarism-related, summary, and question-answering agents.
+- Structured metadata extraction and document validation.
+- Content-safety, plagiarism-related, summary, and question-answering agents.
 - Retrieval-augmented question answering over processed content.
-- Health endpoint and Swagger/OpenAPI documentation in the Development environment.
+- Health endpoint and Swagger/OpenAPI documentation in Development.
 
 ## Architecture
-
-The backend coordinates specialised agents through `DocumentPipelineOrchestrator`. Agents use configured Azure OpenAI, Azure AI Language, and Azure AI Content Safety services when those integrations are configured.
 
 ```mermaid
 flowchart LR
@@ -28,7 +22,7 @@ flowchart LR
   Pipeline --> Storage[Document and vector storage]
 ```
 
-See [architecture documentation](docs/architecture.md) for component responsibilities, data flow, and security notes.
+See [architecture documentation](docs/architecture.md) for the component responsibilities, data flow, and security notes.
 
 ## Technology stack
 
@@ -48,26 +42,18 @@ See [architecture documentation](docs/architecture.md) for component responsibil
 └── ResearchSubmissionProject.sln
 ```
 
-## Prerequisites
-
-- .NET 8 SDK
-- Node.js 18 or later and npm
-- Azure resources for Azure OpenAI, Azure AI Language, and Azure AI Content Safety
-
 ## Run locally
 
-### Configure the backend
+### Backend
 
-Update `BackEnd/appsettings.json` with your own local Azure resource values. The repository contains placeholders; do not commit live credentials.
+Configure `BackEnd/appsettings.json` with your own local Azure resource values. The repository contains placeholders; never commit live credentials.
 
 ```bash
 dotnet restore BackEnd/BackEnd.csproj
 dotnet run --project BackEnd/BackEnd.csproj
 ```
 
-Swagger UI is available when the backend runs in the Development environment.
-
-### Run the frontend
+### Frontend
 
 ```bash
 cd FrontEnd
@@ -75,36 +61,25 @@ npm install
 npm start
 ```
 
-The Angular development server runs on `http://localhost:4200`.
+The Angular development server runs on `http://localhost:4200`. Swagger UI is available when the backend runs in the Development environment.
 
-## API
-
-Use the health endpoint to confirm that the service is running:
+## API and testing
 
 ```bash
 curl https://localhost:<port>/api/health
-```
 
-Explore document-processing endpoints through Swagger UI in the Development environment.
-
-## Testing
-
-```bash
 dotnet build BackEnd/BackEnd.csproj
-
-cd FrontEnd
-npm run build
-npm test
+cd FrontEnd && npm run build && npm test
 ```
 
-The repository includes test guidance in `tests/`; a dedicated .NET test project is a planned improvement.
+The repository includes test guidance in `tests/`; a dedicated .NET test project remains a planned improvement.
 
 ## Security and limitations
 
-- Keep API keys and deployment-specific configuration in environment variables, .NET User Secrets, or a managed secret store.
-- The development CORS configuration permits `http://localhost:4200`; production deployments should use explicit trusted origins.
-- OCR quality depends on the source document and local OCR configuration.
-- Azure-backed operations require valid credentials and access to the configured Azure resources.
+- Keep credentials in environment variables, .NET User Secrets, or a managed secret store.
+- Restrict the development CORS configuration before production deployment.
+- OCR quality depends on document quality and local OCR configuration.
+- Azure-backed operations require valid credentials and access to configured resources.
 
 ## Author
 
